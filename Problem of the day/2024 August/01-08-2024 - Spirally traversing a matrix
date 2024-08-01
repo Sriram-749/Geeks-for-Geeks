@@ -2,31 +2,32 @@ class Solution {
     // Function to return a list of integers denoting spiral traversal of matrix.
     public ArrayList<Integer> spirallyTraverse(int matrix[][]) {
         // code here
-        int row = matrix.length;
-        int col = matrix[0].length;
-        int count = 0;
-        ArrayList<Integer> list = new ArrayList<>();
+        int m = matrix.length;
+        int n = matrix[0].length;
         int[] start = {0, 0};
-        int[] end = {row - 1, col - 1};
-        while(count < row * col) {
-            for(int j = start[1]; count < row * col && j <= end[1]; j++) {
+        int[] end = {m - 1, n - 1};
+        boolean[][] visited = new boolean[m][n];
+        ArrayList<Integer> list = new ArrayList<>();
+        while(start[0] <= end[0] && start[1] <= end[1]) {
+            for(int j = start[1]; j <= end[1]; j++) {
+                if(visited[start[0]][j]) break;
+                visited[start[0]][j] = true;
                 list.add(matrix[start[0]][j]);
-                count++;
             }
-            start[0]++;
-            for(int i = start[0]; count < row * col && i <= end[0]; i++) {
+            for(int i = ++start[0]; i <= end[0]; i++) {
+                if(visited[i][end[1]]) break;
+                visited[i][end[1]] = true;
                 list.add(matrix[i][end[1]]);
-                count++;
             }
-            end[1]--;
-            for(int j = end[1]; count < row * col && j >= start[1]; j--) {
+            for(int j = --end[1]; j >= start[1]; j--) {
+                if(visited[end[0]][j]) break;
+                visited[end[0]][j] = true;
                 list.add(matrix[end[0]][j]);
-                count++;
             }
-            end[0]--;
-            for(int i = end[0]; count < row * col && i >= start[0]; i--) {
+            for(int i = --end[0]; i >= start[0]; i--) {
+                if(visited[i][start[1]]) break;
+                visited[i][start[1]] = true;
                 list.add(matrix[i][start[1]]);
-                count++;
             }
             start[1]++;
         }
